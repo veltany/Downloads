@@ -4,14 +4,37 @@ Plugin name: Downloads
 Plugin URI: http://soundwela.net
 Description: This plugin forces file download. It enables you manage file downloads. 
 Author: Samuel Chukwu 
-Author URI: http://soundwela.net/
 Version: 1.6
+License: GPL2
+Text Domain: fd_downloads
+Author URI: https://github.com/veltany 
+GitHub Plugin URI: https://github.com/veltany/downloads
+GitHub Branch: main
+Requires at least: 6.6
+Requires PHP: 8.2
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
         exit; // Exit if accessed directly
 } 
 
+//-------------------------------------
+// PLUGIN UPDATES
+define('TB_RELATED_POSTS_DIR', plugin_dir_path(__FILE__));
+define('TB_RELATED_POSTS_URL', plugin_dir_url(__FILE__));
+
+
+require plugin_dir_path(__FILE__).'plugin-update/plugin-update-checker.php';
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$myUpdateChecker = PucFactory::buildUpdateChecker(
+	'https://github.com/veltany/downloads',
+	plugin_dir_path(__FILE__).'downloads.php', //Full path to the main plugin file or functions.php.,
+	'fd_downloads'
+);
+
+//Set the branch that contains the stable release.
+$myUpdateChecker->setBranch('main');
 //------------------------------------
 
 //Force File Download
