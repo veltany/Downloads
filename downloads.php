@@ -18,18 +18,18 @@ if ( ! defined( 'ABSPATH' ) ) {
         exit; // Exit if accessed directly
 } 
 
+// Plugin Constants
+define('FD_DOWNLOADS_DIR', plugin_dir_path(__FILE__));
+define('FD_DOWNLOADS_URL', plugin_dir_url(__FILE__));
+
 //-------------------------------------
 // PLUGIN UPDATES
-define('TB_RELATED_POSTS_DIR', plugin_dir_path(__FILE__));
-define('TB_RELATED_POSTS_URL', plugin_dir_url(__FILE__));
-
-
-require plugin_dir_path(__FILE__).'plugin-update/plugin-update-checker.php';
+require FD_DOWNLOADS_DIR.'plugin-update/plugin-update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 $myUpdateChecker = PucFactory::buildUpdateChecker(
 	'https://github.com/veltany/downloads',
-	plugin_dir_path(__FILE__).'downloads.php', //Full path to the main plugin file or functions.php.,
+	 FD_DOWNLOADS_DIR.'downloads.php', //Full path to the main plugin file or functions.php.,
 	'fd_downloads'
 );
 
