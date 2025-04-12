@@ -4,7 +4,7 @@ Plugin name: Downloads
 Plugin URI: http://soundwela.net
 Description: This plugin forces file download. It enables you manage file downloads. 
 Author: Samuel Chukwu 
-Version: 1.1.0
+Version: 1.2.0
 License: GPL2
 Text Domain: fd_downloads
 Author URI: https://github.com/veltany 
