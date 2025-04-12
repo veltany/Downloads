@@ -107,8 +107,8 @@ register_deactivation_hook(__FILE__, 'upd_clear_cron');
 // Add custom interval of 5 minutes
 function upd_custom_cron_intervals($schedules) {
     $schedules['every_five_minutes'] = array(
-        'interval' => 7200, // 10 minutes
-        'display'  => __('Every 1 hour')
+        'interval' => 600, // 10 minutes
+        'display'  => __('Every 10 minutes')
     );
     return $schedules;
 }
