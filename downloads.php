@@ -33,6 +33,7 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
 	'fd_downloads'
 );
 
+$myUpdateChecker->getVcsApi()->enableReleaseAssets();
 //Set the branch that contains the stable release.
 $myUpdateChecker->setBranch('main');
 //------------------------------------
