@@ -1,0 +1,3 @@
+
+
+$download_link = $host.str_replace( home_url(), '', get_permalink(get_the_id()) ).'?download='.attachment_url_to_postid($site_url.$getpath); 
