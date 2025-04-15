@@ -42,7 +42,7 @@ $myUpdateChecker->setBranch('main');
 // Define default options.
 function fd_downloads_default_options() {
     return array(
-        'seconds_interval' => 5,
+        'cron_update_interval' => 5,
         'excluded_tags'   => '',
     );
 }
@@ -113,6 +113,20 @@ function fd_downloads_number_field_cb() {
     <?php
 }
 
+// Validate and sanitize options.
+function fd_downloads_validate_options( $input ) {
+    $validated = array();
+
+    $validated['cron_update_interval'] = (int) ( $input['cron_update_interval'] ?? 5 );
+    
+	return $validated;
+}
+
+// Fetch settings in plugin logic.
+function fd_downloads_get_option( $key ) {
+    $options = get_option( 'fd_downloads_options', fd_downloads_default_options() );
+    return $options[ $key ] ?? fd_downloads_default_options()[ $key ];
+}
 
 
 //------------------------------------------------------------------
@@ -186,9 +200,12 @@ register_deactivation_hook(__FILE__, 'upd_clear_cron');
 
 // Add custom interval of 5 minutes
 function upd_custom_cron_intervals($schedules) {
+
+   $interval = fd_downloads_get_option( 'cron_update_interval' ); // In seconds
+	
     $schedules['every_five_minutes'] = array(
-        'interval' => 1800, // 30 minutes
-        'display'  => __('Every 30 minutes')
+        'interval' => $interval, // In seconds
+        'display'  => __("Every $interval Seconds")
     );
     return $schedules;
 }
