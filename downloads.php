@@ -38,6 +38,85 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
 $myUpdateChecker->setBranch('main');
 //------------------------------------
 
+
+// Define default options.
+function fd_downloads_default_options() {
+    return array(
+        'seconds_interval' => 5,
+        'excluded_tags'   => '',
+    );
+}
+
+
+// Add admin menu item.
+function fd_downloads_add_settings_page() {
+    add_options_page(
+        'Downloads Settings',
+        'Fd Downloads',
+        'manage_options',
+        'fd-downloads',
+        'fd_downloads_settings_page'
+    );
+}
+add_action( 'admin_menu', 'fd_downloads_add_settings_page' );
+
+// Render settings page.
+function fd_downloads_settings_page() {
+    ?>
+    <div class="wrap">
+        <h1><?php esc_html_e( 'Downloads Settings', 'fd-downloads' ); ?></h1>
+        <form method="post" action="options.php">
+            <?php
+            settings_fields( 'fd_downloads_options_group' );
+            do_settings_sections( 'fd-downloads' );
+            submit_button();
+            ?>
+        </form>
+    </div>
+    <?php
+}
+
+// Register settings.
+function fd_downloads_register_settings() {
+    register_setting(
+        'fd_downloads_options_group',
+        'fd_downloads_posts_options',
+        'fd_downloads_validate_options'
+    );
+
+    add_settings_section(
+        'fd_downloads_main_section',
+        __( 'Main Settings', 'fd-downloads' ),
+        'fd_downloads_main_section_cb',
+        'fd-downloads'
+    );
+
+    add_settings_field(
+        'cron_update_interval',
+        __( 'Cron Update Interval', 'fd-downloads' ),
+        'fd_downloads_number_field_cb',
+        'fd-downloads',
+        'fd_downloads_main_section'
+    );
+}
+add_action( 'admin_init', 'fd_downloads_register_settings' );
+
+// Callback functions for the settings.
+function fd_downloads_main_section_cb() {
+    echo '<p>' . esc_html__( 'Customize the behavior of the Fd Downloads.', 'fd-downloads' ) . '</p>';
+}
+
+function fd_downloads_number_field_cb() {
+    $options = get_option( 'fd_downloads_options', fd_downloads_default_options() );
+    ?>
+    <input type="number" name="fd_downloads_options[cron_update_interval]" value="<?php echo esc_attr( $options['cron_update_interval'] ); ?>" min="1" />
+    <?php
+}
+
+
+
+//------------------------------------------------------------------
+
 //Force File Download
 add_action('wp', 'fd_forcedownload', 0);
 function fd_forcedownload(){
